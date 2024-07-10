@@ -20,9 +20,18 @@ async def occupations():
         keyboard.add(InlineKeyboardButton(text = occupation,callback_data = f'-{occupation}'))
     return keyboard.adjust(2).as_markup()
 
-async def employees():
+async def employees(occupation):
     all_employees = await get_employees_by_occupation()
     keyboard = InlineKeyboardBuilder()
     for employee in all_employees:
-        keyboard.add(InlineKeyboardButton(text = employee,callback_data=f'+{employee}'))
+        words = employee.split()
+        if words[2] == occupation:
+            keyboard.add(InlineKeyboardButton(text = f'{words[0]} {words[1]}',callback_data=f'+{employee}'))
+    return keyboard.adjust(2).as_markup()
+
+
+async def action(employee):
+    keyboard = InlineKeyboardBuilder()
+    keyboard.add(InlineKeyboardButton(text = 'fire',callback_data=f'fire_{employee}'))
+    keyboard.add(InlineKeyboardButton(text = 'promote',callback_data=f'promote_{employee}'))
     return keyboard.adjust(2).as_markup()

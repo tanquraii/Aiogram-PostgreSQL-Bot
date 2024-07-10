@@ -1,7 +1,7 @@
 from sqlalchemy import BigInteger,String,ForeignKey,select,distinct
 from sqlalchemy.orm import DeclarativeBase,Mapped,mapped_column
 from sqlalchemy.ext.asyncio import AsyncAttrs,async_sessionmaker,create_async_engine
-engine = create_async_engine(url = 'postgresql+asyncpg://postgres:123@localhost:5432/personal')
+engine = create_async_engine(url = 'url')
 async_session = async_sessionmaker(engine)
 
 class Base(AsyncAttrs,DeclarativeBase):
@@ -9,6 +9,7 @@ class Base(AsyncAttrs,DeclarativeBase):
 
 class Employee(Base):
     __tablename__ = 'employees'
+    
     first_name:Mapped[str] = mapped_column(primary_key = True)
     last_name:Mapped[str] = mapped_column(primary_key = True)
     occupation:Mapped[str] = mapped_column(primary_key = True)
@@ -29,7 +30,7 @@ async def get_employees_by_occupation():
     async with async_session() as session:
         result = await session.execute(select(Employee.first_name, Employee.last_name,Employee.occupation))
         employees = result.all()
-        return [f"{first} {last} {job}" for first, last,job in employees]
+        return [f"{first} {last} {job} " for first, last,job in employees]
 
 async def async_main():
     async with engine.begin() as conn:

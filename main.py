@@ -4,7 +4,7 @@ from app.handlers import router
 from app.database.connection import async_main
 async def main():
     await async_main()
-    BOT_TOKEN = '7360335399:AAHe6XYUGLBiZR9RGn9YIApJXxrZyabVDCM'
+    BOT_TOKEN = 'token'
     bot = Bot(token = BOT_TOKEN)
     dp = Dispatcher()
     dp.include_router(router)
@@ -15,3 +15,4 @@ if __name__ == '__main__':
         asyncio.run(main())
     except KeyboardInterrupt:
         print('Bot is off')
+
